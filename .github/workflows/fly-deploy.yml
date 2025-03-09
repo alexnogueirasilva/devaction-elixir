@@ -1,0 +1,114 @@
+name: Fly Deploy
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - master
+
+jobs:
+  create-tag:
+    if: ${{ github.event.pull_request.merged }}
+    runs-on: ubuntu-latest
+    outputs:
+      current_date: ${{ steps.set_current_date.outputs.current_date }}
+      new_tag: ${{ steps.create_tag.outputs.new_tag }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Garante que todas as tags sejam buscadas
+
+      - name: Set Current Date
+        id: set_current_date
+        run: |
+          current_date=$(TZ='America/Sao_Paulo' date +'%d/%m/%Y %H:%M:%S')
+          echo "CURRENT_DATE=${current_date}" >> $GITHUB_ENV
+          echo "::set-output name=current_date::${current_date}"
+
+      - name: Create and push tag
+        id: create_tag
+        run: |
+          git fetch --tags
+          LATEST_TAG=$(git tag | sort -V | tail -n1 || echo "v0.0.0")
+          echo "Latest tag: $LATEST_TAG"
+          IFS='.' read -ra PARTS <<< "${LATEST_TAG#v}"
+          MAJOR="${PARTS[0]}"
+          MINOR="${PARTS[1]}"
+          PATCH="${PARTS[2]}"
+          NEW_PATCH=$((PATCH + 1))
+          NEW_TAG="v$MAJOR.$MINOR.$NEW_PATCH"
+          echo "New tag: $NEW_TAG"
+          echo "::set-output name=new_tag::$NEW_TAG"
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag $NEW_TAG
+          git push origin $NEW_TAG
+
+  notify-start:
+    needs: create-tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Slack - Deployment Started
+        uses: slackapi/slack-github-action@v1.14.0
+        with:
+          channel-id: '#deploy'
+          slack-message: |
+            ########################################
+            :hourglass_flowing_sand: O deploy está iniciando.
+            Iniciado por: ${{ github.actor }}
+            às: ${{ needs.create-tag.outputs.current_date }}
+            Repositório: ${{ github.repository }}
+            Tag: ${{ needs.create-tag.outputs.new_tag }}
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
+  deploy:
+    needs: notify-start
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Deploy to Fly.io
+        run: flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+  notify-end:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Garante que todas as tags sejam buscadas
+
+      - name: Set Current Date
+        id: set_current_date
+        run: |
+          current_date=$(TZ='America/Sao_Paulo' date +'%d/%m/%Y %H:%M:%S')
+          echo "CURRENT_DATE=${current_date}" >> $GITHUB_ENV
+          echo "::set-output name=current_date::${current_date}"
+
+      - name: Get latest tag
+        id: get_latest_tag
+        run: |
+          git fetch --tags
+          LATEST_TAG=$(git tag | sort -V | tail -n1)
+          echo "LATEST_TAG=${LATEST_TAG}" >> $GITHUB_ENV
+          echo "::set-output name=latest_tag::${LATEST_TAG}"
+
+      - name: Notify Slack - Deployment Finished
+        uses: slackapi/slack-github-action@v1.14.0
+        with:
+          channel-id: '#deploy'
+          slack-message: |
+            ########################################
+            :rocket: O deploy foi concluído.
+            Iniciado por: ${{ github.actor }}
+            às: ${{ steps.set_current_date.outputs.current_date }}
+            Repositório: ${{ github.repository }}
+            Tag: ${{ steps.get_latest_tag.outputs.latest_tag }}
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
