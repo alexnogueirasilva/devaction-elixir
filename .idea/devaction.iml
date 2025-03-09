@@ -13,14 +13,18 @@
       <excludeFolder url="file://$MODULE_DIR$/.elixir_ls" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/bandit" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/bcrypt_elixir" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/bunt" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/castore" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/comeonin" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/credo" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/db_connection" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/decimal" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/dialyxir" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/dns_cluster" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/ecto" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/ecto_sql" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/elixir_make" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/erlex" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/esbuild" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/expo" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/file_system" />
@@ -43,6 +47,7 @@
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/plug" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/plug_crypto" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/postgrex" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/sobelow" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/swoosh" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/tailwind" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/telemetry" />
@@ -192,5 +197,12 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="sobelow" level="project" />
+    <orderEntry type="library" name="bunt" level="project" />
+    <orderEntry type="library" name="meck" level="project" />
+    <orderEntry type="library" name="mock" level="project" />
+    <orderEntry type="library" name="sax_map" level="project" />
+    <orderEntry type="library" name="saxy" level="project" />
+    <orderEntry type="library" name="erlex" level="project" />
   </component>
 </module>
