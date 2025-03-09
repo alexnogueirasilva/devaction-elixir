@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" class="[scrollbar-gutter:stable]">
+<html lang="pt-BR" class="[scrollbar-gutter:stable]">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
-    <.live_title default="Devaction" suffix=" · Phoenix Framework">
+    <.live_title default="DevAction" suffix=" · Soluções em Sistemas">
       {assigns[:page_title]}
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
@@ -12,47 +12,75 @@
     </script>
   </head>
   <body class="bg-white">
-    <ul class="relative z-10 flex items-center gap-4 px-4 sm:px-6 lg:px-8 justify-end">
-      <%= if @current_user do %>
-        <li class="text-[0.8125rem] leading-6 text-zinc-900">
-          {@current_user.email}
-        </li>
-        <li>
-          <.link
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex items-center gap-8 px-6 py-3 rounded-full bg-orange-100/20 backdrop-blur-sm shadow-md">
+        <a href={~p"/"} class="text-sm font-semibold text-white hover:text-orange-100 transition">
+          DEVACTIION
+        </a>
+        <a
+          href={~p"/home"}
+          class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
+        >
+          Início
+        </a>
+        <a
+          href={~p"/services"}
+          class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
+        >
+          Serviços
+        </a>
+        <a
+          href={~p"/testimonials"}
+          class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
+        >
+          Depoimentos
+        </a>
+        <a
+          href={~p"/team"}
+          class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
+        >
+          Equipe
+        </a>
+        <a
+          href={~p"/contact"}
+          class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
+        >
+          Contato
+        </a>
+        <%= if @current_user do %>
+          <span class="text-sm text-white">
+            {@current_user.email}
+          </span>
+          <a
             href={~p"/users/settings"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
           >
-            Settings
-          </.link>
-        </li>
-        <li>
-          <.link
+            Configurações
+          </a>
+          <a
             href={~p"/users/log_out"}
             method="delete"
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
           >
-            Log out
-          </.link>
-        </li>
-      <% else %>
-        <li>
-          <.link
+            Sair
+          </a>
+        <% else %>
+          <a
             href={~p"/users/register"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
           >
-            Register
-          </.link>
-        </li>
-        <li>
-          <.link
+            Registrar
+          </a>
+          <a
             href={~p"/users/log_in"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
           >
-            Log in
-          </.link>
-        </li>
-      <% end %>
-    </ul>
+            Entrar
+          </a>
+        <% end %>
+      </div>
+    </nav>
     {@inner_content}
   </body>
 </html>
