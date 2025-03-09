@@ -2,8 +2,8 @@ import Config
 
 # Configure your database
 config :devaction, Devaction.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "admin",
+  password: "Bruna2012*",
   hostname: "localhost",
   database: "devaction_dev",
   stacktrace: true,
