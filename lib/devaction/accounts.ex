@@ -4,10 +4,9 @@ defmodule Devaction.Accounts do
   """
 
   import Ecto.Query, warn: false
+  alias Devaction.Accounts.{User, UserNotifier, UserToken}
+
   alias Devaction.Repo
-
-  alias Devaction.Accounts.{User, UserToken, UserNotifier}
-
   ## Database getters
 
   @doc """
