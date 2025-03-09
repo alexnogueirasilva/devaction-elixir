@@ -17,8 +17,8 @@ defmodule DevactionWeb.CoreComponents do
   use Phoenix.Component
   use Gettext, backend: DevactionWeb.Gettext
 
-  alias Phoenix.LiveView.JS
   alias Phoenix.HTML.Form
+  alias Phoenix.LiveView.JS
 
   @doc """
   Renders a modal.

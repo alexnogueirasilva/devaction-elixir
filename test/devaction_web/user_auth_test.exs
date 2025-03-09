@@ -1,9 +1,10 @@
 defmodule DevactionWeb.UserAuthTest do
   use DevactionWeb.ConnCase, async: true
 
-  alias Phoenix.LiveView
   alias Devaction.Accounts
   alias DevactionWeb.UserAuth
+  alias Phoenix.LiveView
+
   import Devaction.AccountsFixtures
 
   @remember_me_cookie "_devaction_web_user_remember_me"
