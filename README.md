@@ -33,7 +33,7 @@ Este projeto utiliza as seguintes dependências principais:
 
 - **Elixir**: 1.18
 - **Phoenix**: 1.17
-- **PostgreSQL**: 16
+- **PostgreSQL**: 17
 - **Credo**: Para análise estática de código
 - **Dialyxir**: Para análise de tipos com Dialyzer
 - **Sobelow**: Para verificação de segurança
