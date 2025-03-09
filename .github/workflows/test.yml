@@ -33,8 +33,8 @@ jobs:
       pg:
         image: postgres:16
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
+          POSTGRES_USER: admin
+          POSTGRES_PASSWORD: Bruna2012*
           POSTGRES_DB: postgres
         ports:
           - 5432:5432
