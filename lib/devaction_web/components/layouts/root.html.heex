@@ -10,77 +10,153 @@
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
+    <style>
+      /* Estilos adicionais para responsividade */
+      .nav-menu {
+        transition: all 0.3s ease-in-out;
+      }
+
+      @media (max-width: 768px) {
+        .nav-menu {
+          display: none;
+          position: fixed;
+          top: 70px;
+          left: 0;
+          right: 0;
+          background: rgba(255, 165, 0, 0.3); /* Laranja translúcido (ajustado para 30% opacidade) */
+          flex-direction: column;
+          padding: 1rem;
+          border-radius: 0 0 1rem 1rem;
+          backdrop-blur-sm;
+        }
+
+        .nav-menu.active {
+          display: flex;
+        }
+
+        .hamburger {
+          display: block;
+          cursor: pointer;
+        }
+      }
+
+      @media (min-width: 769px) {
+        .hamburger {
+          display: none;
+        }
+        .nav-menu {
+          display: flex !important;
+        }
+      }
+
+      .hamburger span {
+        display: block;
+        width: 25px;
+        height: 3px;
+        background: white;
+        margin: 5px 0;
+        transition: all 0.3s ease;
+      }
+
+      .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+      }
+
+      .hamburger.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -7px);
+      }
+
+      /* Ajuste de texto para melhor legibilidade */
+      .nav-menu a {
+        color: #ffffff; /* Branco puro para contraste */
+        font-weight: 500; /* Peso médio para destacar sem exagerar */
+        padding: 0.5rem 1rem; /* Espaçamento interno */
+        transition: color 0.3s ease;
+      }
+
+      .nav-menu a:hover {
+        color: #fff5e1; /* Tom claro de laranja para hover */
+      }
+    </style>
   </head>
   <body class="bg-white">
     <!-- Navbar -->
     <nav class="fixed top-0 left-0 right-0 z-50 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-4">
-      <div class="flex items-center gap-8 px-6 py-3 rounded-full bg-orange-100/20 backdrop-blur-sm shadow-md">
+      <div class="flex items-center justify-between w-full max-w-4xl px-6 py-3 rounded-full bg-orange-100/20 backdrop-blur-sm shadow-md">
         <a href={~p"/"} class="text-sm font-semibold text-white hover:text-orange-100 transition">
           DEVACTIION
         </a>
-        <a
-          href={~p"/home"}
-          class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
-        >
-          Início
-        </a>
-        <a
-          href={~p"/services"}
-          class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
-        >
-          Serviços
-        </a>
-        <a
-          href={~p"/testimonials"}
-          class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
-        >
-          Depoimentos
-        </a>
-        <a
-          href={~p"/team"}
-          class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
-        >
-          Equipe
-        </a>
-        <a
-          href={~p"/contact"}
-          class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
-        >
-          Contato
-        </a>
-        <%= if @current_user do %>
-          <span class="text-sm text-white">
-            {@current_user.email}
-          </span>
-          <a
-            href={~p"/users/settings"}
-            class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
-          >
-            Configurações
+        
+        <!-- Botão Hamburguer -->
+        <div class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <!-- Menu -->
+        <div class="nav-menu flex items-center gap-8">
+          <a href={~p"/home"} class="text-sm font-medium text-white/80 hover:text-orange-100 transition">
+            Início
           </a>
-          <a
-            href={~p"/users/log_out"}
-            method="delete"
-            class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
-          >
-            Sair
+          <a href={~p"/services"} class="text-sm font-medium text-white/80 hover:text-orange-100 transition">
+            Serviços
           </a>
-        <% else %>
-          <a
-            href={~p"/users/register"}
-            class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
-          >
-            Registrar
+          <a href={~p"/testimonials"} class="text-sm font-medium text-white/80 hover:text-orange-100 transition">
+            Depoimentos
           </a>
-          <a
-            href={~p"/users/log_in"}
-            class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
-          >
-            Entrar
+          <a href={~p"/team"} class="text-sm font-medium text-white/80 hover:text-orange-100 transition">
+            Equipe
           </a>
-        <% end %>
+          <a href={~p"/contact"} class="text-sm font-medium text-white/80 hover:text-orange-100 transition">
+            Contato
+          </a>
+          <%= if @current_user do %>
+            <span class="text-sm text-white">
+              {@current_user.email}
+            </span>
+            <a href={~p"/users/settings"} class="text-sm font-medium text-white/80 hover:text-orange-100 transition">
+              Configurações
+            </a>
+            <a href={~p"/users/log_out"} method="delete" class="text-sm font-medium text-white/80 hover:text-orange-100 transition">
+              Sair
+            </a>
+          <% else %>
+            <a href={~p"/users/register"} class="text-sm font-medium text-white/80 hover:text-orange-100 transition">
+              Registrar
+            </a>
+            <a href={~p"/users/log_in"} class="text-sm font-medium text-white/80 hover:text-orange-100 transition">
+              Entrar
+            </a>
+          <% end %>
+        </div>
       </div>
     </nav>
     {@inner_content}
+
+    <script>
+      // JavaScript para toggle do menu
+      document.addEventListener('DOMContentLoaded', () => {
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+          hamburger.classList.toggle('active');
+          navMenu.classList.toggle('active');
+        });
+
+        // Fechar menu ao clicar em um link
+        navMenu.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+          });
+        });
+      });
+    </script>
   </body>
 </html>
