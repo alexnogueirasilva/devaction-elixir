@@ -31,7 +31,7 @@ Este projeto utiliza GitHub Actions para automatizar a verificação de testes, 
 
 Este projeto utiliza as seguintes dependências principais:
 
-- **Elixir**: 1.17
+- **Elixir**: 1.18
 - **Phoenix**: 1.17
 - **PostgreSQL**: 16
 - **Credo**: Para análise estática de código
