@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy:
-    if: github.event.pull_request.merged == true && github.event.pull_request.head.ref == 'release'
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release/')
     name: Deploy to Fly.io
     runs-on: ubuntu-latest
 
@@ -21,8 +21,8 @@ jobs:
       - name: Set up Elixir
         uses: erlef/setup-beam@v1
         with:
-          elixir-version: '1.18'
-          otp-version: '27'
+          elixir-version: "1.18"
+          otp-version: "27"
 
       - name: Get current version and increment
         id: version
@@ -30,18 +30,18 @@ jobs:
           # Extrai a versão atual do arquivo mix.exs
           CURRENT_VERSION=$(grep -m 1 'version:' mix.exs | sed -E 's/.*version: "([^"]+)".*/\1/')
           echo "Current version: $CURRENT_VERSION"
-          
+
           # Divide a versão em partes (major.minor.patch)
           IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
           MAJOR="${VERSION_PARTS[0]}"
           MINOR="${VERSION_PARTS[1]}"
           PATCH="${VERSION_PARTS[2]}"
-          
+
           # Incrementa o número do patch
           NEW_PATCH=$((PATCH + 1))
           NEW_VERSION="$MAJOR.$MINOR.$NEW_PATCH"
           echo "New version: $NEW_VERSION"
-          
+
           # Define as variáveis para uso nas etapas posteriores
           echo "CURRENT_VERSION=$CURRENT_VERSION" >> $GITHUB_ENV
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
@@ -52,7 +52,8 @@ jobs:
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
           git tag -a ${{ env.TAG }} -m "Release ${{ env.NEW_VERSION }}"
-          git push origin ${{ env.TAG }}
+          # Utiliza o PAT_TOKEN para ter permissão de escrita
+          git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/alexnogueirasilva/devaction-elixir.git ${{ env.TAG }}
 
       - name: Create GitHub Release
         id: create_release
