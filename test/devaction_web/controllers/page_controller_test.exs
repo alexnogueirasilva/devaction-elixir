@@ -3,6 +3,6 @@ defmodule DevactionWeb.PageControllerTest do
 
   test "GET /", %{conn: conn} do
     conn = get(conn, ~p"/")
-    assert html_response(conn, 200) =~ "Peace of mind from prototype to production"
+    assert html_response(conn, 200) =~ "Paz de espírito de protótipo à produção."
   end
 end

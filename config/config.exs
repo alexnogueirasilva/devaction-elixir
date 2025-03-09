@@ -9,7 +9,7 @@ import Config
 
 config :devaction,
   ecto_repos: [Devaction.Repo],
-  generators: [timestamp_type: :utc_datetime]
+  generators: [timestamp_type: :utc_datetime, binary_id: true]
 
 # Configures the endpoint
 config :devaction, DevactionWeb.Endpoint,
