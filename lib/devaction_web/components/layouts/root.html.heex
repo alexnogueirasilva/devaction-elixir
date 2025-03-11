@@ -15,7 +15,6 @@
       .nav-menu {
         transition: all 0.3s ease-in-out;
       }
-
       @media (max-width: 768px) {
         .nav-menu {
           display: none;
@@ -37,7 +36,6 @@
           cursor: pointer;
         }
       }
-
       @media (min-width: 769px) {
         .hamburger {
           display: none;
@@ -46,7 +44,6 @@
           display: flex !important;
         }
       }
-
       .hamburger span {
         display: block;
         width: 25px;
@@ -55,83 +52,82 @@
         margin: 5px 0;
         transition: all 0.3s ease;
       }
-
       .hamburger.active span:nth-child(1) {
         transform: rotate(45deg) translate(5px, 5px);
       }
-
       .hamburger.active span:nth-child(2) {
         opacity: 0;
       }
-
       .hamburger.active span:nth-child(3) {
         transform: rotate(-45deg) translate(7px, -7px);
       }
-
-      /* Ajuste de texto para melhor legibilidade */
+      /* Ajuste de texto para melhor legibilidade com fundo branco */
       .nav-menu a {
-        color: #ffffff; /* Branco puro para contraste */
-        font-weight: 500; /* Peso médio para destacar */
-        padding: 0.5rem 1rem; /* Espaçamento interno */
+        color: #333333; /* Tom escuro para contraste */
+        font-weight: 500;
+        padding: 0.5rem 1rem;
         transition: color 0.3s ease;
       }
-
       .nav-menu a:hover {
-        color: #fff5e1; /* Tom claro de laranja para hover */
+        color: #111111; /* Tom ainda mais escuro no hover */
       }
     </style>
   </head>
   <body class="bg-white">
     <!-- Navbar -->
-    <nav class="fixed top-0 left-0 right-0 z-50 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-4">
-      <div class="flex items-center justify-between w-full max-w-4xl px-6 py-3 rounded-full bg-orange-100/20 backdrop-blur-sm shadow-md">
+    <nav
+      id="mainNav"
+      class="fixed top-0 left-0 right-0 z-50 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-4"
+    >
+      <div
+        id="navContainer"
+        class="flex items-center justify-between w-full max-w-4xl px-6 py-3 rounded-full bg-orange-100/20 backdrop-blur-sm shadow-md"
+      >
         <.link
           href={~p"/"}
-          class="text-sm font-semibold text-white hover:text-orange-100 transition"
+          class="text-sm font-semibold text-gray-800 hover:text-gray-900 transition"
         >
           DEVACTIION
         </.link>
-        
-<!-- Botão Hamburguer -->
+        <!-- Botão Hamburguer -->
         <div class="hamburger">
           <span></span>
           <span></span>
           <span></span>
         </div>
-        
-<!-- Menu -->
+        <!-- Menu -->
         <div class="nav-menu flex items-center gap-8">
           <.link
             href={~p"/services"}
-            class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
+            class="text-sm font-medium text-gray-800 hover:text-gray-900 transition"
           >
             Serviços
           </.link>
           <.link
             href={~p"/testimonials"}
-            class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
+            class="text-sm font-medium text-gray-800 hover:text-gray-900 transition"
           >
             Depoimentos
           </.link>
           <.link
             href={~p"/team"}
-            class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
+            class="text-sm font-medium text-gray-800 hover:text-gray-900 transition"
           >
             Equipe
           </.link>
           <.link
             href={~p"/contact"}
-            class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
+            class="text-sm font-medium text-gray-800 hover:text-gray-900 transition"
           >
             Contato
           </.link>
           <%= if @current_user do %>
-            <span class="text-sm text-white">
+            <span class="text-sm text-gray-800">
               {@current_user.email}
             </span>
             <.link
               href={~p"/users/settings"}
-              class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
+              class="text-sm font-medium text-gray-800 hover:text-gray-900 transition"
             >
               Configurações
             </.link>
@@ -145,13 +141,13 @@
           <% else %>
             <.link
               href={~p"/users/register"}
-              class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
+              class="text-sm font-medium text-gray-800 hover:text-gray-900 transition"
             >
               Registrar
             </.link>
             <.link
               href={~p"/users/log_in"}
-              class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
+              class="text-sm font-medium text-gray-800 hover:text-gray-900 transition"
             >
               Entrar
             </.link>
@@ -177,6 +173,22 @@
             navMenu.classList.remove('active');
           });
         });
+
+        // Observer para detectar quando o nav está sobre o fundo branco
+        const navContainer = document.getElementById('navContainer');
+        const whiteSection = document.getElementById('whiteSection');
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              // Se a seção branca estiver visível, adiciona o gradiente no nav mantendo o formato
+              navContainer.classList.add('bg-gradient-to-r', 'from-orange-400', 'to-orange-600');
+            } else {
+              navContainer.classList.remove('bg-gradient-to-r', 'from-orange-400', 'to-orange-600');
+            }
+          });
+        }, { threshold: 0.1 });
+
+        observer.observe(whiteSection);
       });
     </script>
   </body>
