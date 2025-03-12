@@ -11,7 +11,6 @@
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
     <style>
-      /* Estilos adicionais para responsividade */
       .nav-menu {
         transition: all 0.3s ease-in-out;
       }
@@ -61,7 +60,6 @@
       .hamburger.active span:nth-child(3) {
         transform: rotate(-45deg) translate(7px, -7px);
       }
-      /* Ajuste de texto para melhor legibilidade com fundo branco */
       .nav-menu a {
         color: #333333; /* Tom escuro para contraste */
         font-weight: 500;
@@ -74,7 +72,6 @@
     </style>
   </head>
   <body class="bg-white">
-    <!-- Navbar -->
     <nav
       id="mainNav"
       class="fixed top-0 left-0 right-0 z-50 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-4"
@@ -89,13 +86,11 @@
         >
           DEVACTIION
         </.link>
-        <!-- Botão Hamburguer -->
         <div class="hamburger">
           <span></span>
           <span></span>
           <span></span>
         </div>
-        <!-- Menu -->
         <div class="nav-menu flex items-center gap-8">
           <.link
             href={~p"/services"}
@@ -174,13 +169,11 @@
           });
         });
 
-        // Observer para detectar quando o nav está sobre o fundo branco
         const navContainer = document.getElementById('navContainer');
         const whiteSection = document.getElementById('whiteSection');
         const observer = new IntersectionObserver(entries => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
-              // Se a seção branca estiver visível, adiciona o gradiente no nav mantendo o formato
               navContainer.classList.add('bg-gradient-to-r', 'from-orange-400', 'to-orange-600');
             } else {
               navContainer.classList.remove('bg-gradient-to-r', 'from-orange-400', 'to-orange-600');

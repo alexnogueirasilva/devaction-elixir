@@ -13,6 +13,15 @@ defmodule DevactionWeb.Router do
     plug :fetch_current_user
   end
 
+  pipeline :admin_layout do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_live_flash
+    plug :put_root_layout, html: {DevactionWeb.Layouts, :admin}
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -81,5 +90,11 @@ defmodule DevactionWeb.Router do
       live "/users/confirm/:token", UserConfirmationLive, :edit
       live "/users/confirm", UserConfirmationInstructionsLive, :new
     end
+  end
+
+  scope "/admin", DevactionWeb.Admin do
+    pipe_through [:admin_layout]
+
+    live "/", AdminDashboardLive, :index
   end
 end
