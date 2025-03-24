@@ -10,77 +10,179 @@
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
+    <style>
+      .nav-menu {
+        transition: all 0.3s ease-in-out;
+      }
+      @media (max-width: 768px) {
+        .nav-menu {
+          display: none;
+          position: fixed;
+          top: 70px;
+          left: 0;
+          right: 0;
+          background: rgba(255, 165, 0, 0.3); /* Laranja translúcido (30% opacidade) */
+          flex-direction: column;
+          padding: 1rem;
+          border-radius: 0 0 1rem 1rem;
+          backdrop-blur-sm;
+        }
+        .nav-menu.active {
+          display: flex;
+        }
+        .hamburger {
+          display: block;
+          cursor: pointer;
+        }
+      }
+      @media (min-width: 769px) {
+        .hamburger {
+          display: none;
+        }
+        .nav-menu {
+          display: flex !important;
+        }
+      }
+      .hamburger span {
+        display: block;
+        width: 25px;
+        height: 3px;
+        background: white;
+        margin: 5px 0;
+        transition: all 0.3s ease;
+      }
+      .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+      }
+      .hamburger.active span:nth-child(2) {
+        opacity: 0;
+      }
+      .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -7px);
+      }
+      .nav-menu a {
+        color: #333333; /* Tom escuro para contraste */
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        transition: color 0.3s ease;
+      }
+      .nav-menu a:hover {
+        color: #111111; /* Tom ainda mais escuro no hover */
+      }
+    </style>
   </head>
   <body class="bg-white">
-    <!-- Navbar -->
-    <nav class="fixed top-0 left-0 right-0 z-50 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-4">
-      <div class="flex items-center gap-8 px-6 py-3 rounded-full bg-orange-100/20 backdrop-blur-sm shadow-md">
-        <a href={~p"/"} class="text-sm font-semibold text-white hover:text-orange-100 transition">
+    <nav
+      id="mainNav"
+      class="fixed top-0 left-0 right-0 z-50 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-4"
+    >
+      <div
+        id="navContainer"
+        class="flex items-center justify-between w-full max-w-4xl px-6 py-3 rounded-full bg-orange-100/20 backdrop-blur-sm shadow-md"
+      >
+        <.link
+          href={~p"/"}
+          class="text-sm font-semibold text-gray-800 hover:text-gray-900 transition"
+        >
           DEVACTIION
-        </a>
-        <a
-          href={~p"/home"}
-          class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
-        >
-          Início
-        </a>
-        <a
-          href={~p"/services"}
-          class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
-        >
-          Serviços
-        </a>
-        <a
-          href={~p"/testimonials"}
-          class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
-        >
-          Depoimentos
-        </a>
-        <a
-          href={~p"/team"}
-          class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
-        >
-          Equipe
-        </a>
-        <a
-          href={~p"/contact"}
-          class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
-        >
-          Contato
-        </a>
-        <%= if @current_user do %>
-          <span class="text-sm text-white">
-            {@current_user.email}
-          </span>
-          <a
-            href={~p"/users/settings"}
-            class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
+        </.link>
+        <div class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="nav-menu flex items-center gap-8">
+          <.link
+            href={~p"/services"}
+            class="text-sm font-medium text-gray-800 hover:text-gray-900 transition"
           >
-            Configurações
-          </a>
-          <a
-            href={~p"/users/log_out"}
-            method="delete"
-            class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
+            Serviços
+          </.link>
+          <.link
+            href={~p"/testimonials"}
+            class="text-sm font-medium text-gray-800 hover:text-gray-900 transition"
           >
-            Sair
-          </a>
-        <% else %>
-          <a
-            href={~p"/users/register"}
-            class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
+            Depoimentos
+          </.link>
+          <.link
+            href={~p"/team"}
+            class="text-sm font-medium text-gray-800 hover:text-gray-900 transition"
           >
-            Registrar
-          </a>
-          <a
-            href={~p"/users/log_in"}
-            class="text-sm font-medium text-white/80 hover:text-orange-100 transition"
+            Equipe
+          </.link>
+          <.link
+            href={~p"/contact"}
+            class="text-sm font-medium text-gray-800 hover:text-gray-900 transition"
           >
-            Entrar
-          </a>
-        <% end %>
+            Contato
+          </.link>
+          <%= if @current_user do %>
+            <span class="text-sm text-gray-800">
+              {@current_user.email}
+            </span>
+            <.link
+              href={~p"/users/settings"}
+              class="text-sm font-medium text-gray-800 hover:text-gray-900 transition"
+            >
+              Configurações
+            </.link>
+            <.link
+              href={~p"/users/log_out"}
+              method="delete"
+              class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            >
+              Log out
+            </.link>
+          <% else %>
+            <.link
+              href={~p"/users/register"}
+              class="text-sm font-medium text-gray-800 hover:text-gray-900 transition"
+            >
+              Registrar
+            </.link>
+            <.link
+              href={~p"/users/log_in"}
+              class="text-sm font-medium text-gray-800 hover:text-gray-900 transition"
+            >
+              Entrar
+            </.link>
+          <% end %>
+        </div>
       </div>
     </nav>
     {@inner_content}
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+          hamburger.classList.toggle('active');
+          navMenu.classList.toggle('active');
+        });
+
+        navMenu.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+          });
+        });
+
+        const navContainer = document.getElementById('navContainer');
+        const whiteSection = document.getElementById('whiteSection');
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              navContainer.classList.add('bg-gradient-to-r', 'from-orange-400', 'to-orange-600');
+            } else {
+              navContainer.classList.remove('bg-gradient-to-r', 'from-orange-400', 'to-orange-600');
+            }
+          });
+        }, { threshold: 0.1 });
+
+        observer.observe(whiteSection);
+      });
+    </script>
   </body>
 </html>
