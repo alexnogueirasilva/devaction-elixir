@@ -20,6 +20,7 @@ defmodule DevactionWeb.Router do
     plug :put_root_layout, html: {DevactionWeb.Layouts, :admin}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :fetch_current_user
   end
 
   pipeline :api do
@@ -95,6 +96,8 @@ defmodule DevactionWeb.Router do
   scope "/admin", DevactionWeb.Admin do
     pipe_through [:admin_layout]
 
-    live "/", AdminDashboardLive, :index
+    live_session :admin do
+      live "/", AdminDashboardLive, :index
+    end
   end
 end
